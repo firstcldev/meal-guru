@@ -1,0 +1,7 @@
+{
+  "name": "Meal Guru",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
