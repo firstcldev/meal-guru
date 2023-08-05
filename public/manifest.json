@@ -1,6 +1,6 @@
 {
-    "short_name": "Ionic App",
-    "name": "My Ionic App",
+    "short_name": "Meal Guru",
+    "name": "Meal Guru",
     "icons": [
         {
             "src": "assets/icon/favicon.png",

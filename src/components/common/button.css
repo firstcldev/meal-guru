@@ -1,0 +1,30 @@
+.buttonStyle {
+    display: flex;
+    width: 328px;
+    padding: 14px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 999px;
+    margin-top: 0.5rem;
+}
+
+.primary {
+    background: #aee67f;
+    color: #1c3207;
+    font-family: Figtree;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.secondary {
+    background: #fff;
+    border: 1px solid #1c3207;
+    color: #1c3207;
+    font-family: Figtree;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
