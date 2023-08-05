@@ -1,7 +1,7 @@
 {
-  "name": "Meal Guru",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react-vite"
+    "name": "Meal Guru",
+    "integrations": {
+        "capacitor": {}
+    },
+    "type": "react-vite"
 }
