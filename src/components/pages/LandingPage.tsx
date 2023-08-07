@@ -22,14 +22,14 @@ const LandingPage: React.FC = () => {
 
             <div className="buttonsContainer">
                 <div className="buttonContainer">
-                    <Button text="I'm new, Sign me up" color="primary"></Button>
-                </div>
-                <div className="buttonContainer">
                     <Button
-                        text="Create an Account"
-                        color="secondary"
+                        text="I'm new, Sign me up"
+                        color="primary"
                         onClick={navigateToRegister}
                     ></Button>
+                </div>
+                <div className="buttonContainer">
+                    <Button text="Sign in" color="secondary"></Button>
                 </div>
             </div>
         </div>

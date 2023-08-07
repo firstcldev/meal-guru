@@ -29,6 +29,7 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import LandingPage from "./components/pages/LandingPage";
 import RegisterPage from "./components/pages/RegisterPage";
+import MFAPage from "./components/pages/MFAPage";
 
 setupIonicReact();
 
@@ -41,6 +42,10 @@ const App: React.FC = () => (
                 </Route>
                 <Route exact path="/register">
                     <RegisterPage />
+                </Route>
+                <Route exact path="/mfa">
+                    
+                    <MFAPage />
                 </Route>
             </IonRouterOutlet>
         </IonReactRouter>
