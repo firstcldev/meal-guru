@@ -240,3 +240,8 @@ http://ionicframework.com/docs/theming/ */
     font-family: FigTree;
     src: url('../assets/fonts/Figtree-Regular.ttf');
 }
+
+@font-face {
+    font-family: Lato;
+    src: url('../assets/fonts/Lato-Regular.ttf');
+}

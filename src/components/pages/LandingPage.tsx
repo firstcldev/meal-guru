@@ -1,7 +1,14 @@
+import { useHistory } from "react-router";
 import Button from "../common/button";
 import "./LandingPage.css";
 
 const LandingPage: React.FC = () => {
+    const history = useHistory();
+
+    const navigateToRegister = () => {
+        history.push("/register");
+    };
+
     return (
         <div className="container">
             <div className="introduction">
@@ -18,7 +25,11 @@ const LandingPage: React.FC = () => {
                     <Button text="I'm new, Sign me up" color="primary"></Button>
                 </div>
                 <div className="buttonContainer">
-                    <Button text="Create an Account" color="secondary"></Button>
+                    <Button
+                        text="Create an Account"
+                        color="secondary"
+                        onClick={navigateToRegister}
+                    ></Button>
                 </div>
             </div>
         </div>
