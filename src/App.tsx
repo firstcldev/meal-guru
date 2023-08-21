@@ -1,13 +1,13 @@
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import {
     IonApp,
     IonRouterOutlet,
-    IonTabBar,
-    IonTabs,
     setupIonicReact,
+    //@ts-ignore
 } from "@ionic/react";
+//@ts-ignore
 import { IonReactRouter } from "@ionic/react-router";
-import { ellipse, square, triangle } from "ionicons/icons";
+import { ThemeProvider } from "@mui/material/styles";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -24,31 +24,29 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
-
-/* Theme variables */
-import "./theme/variables.css";
-import LandingPage from "./components/pages/LandingPage";
-import RegisterPage from "./components/pages/RegisterPage";
-import MFAPage from "./components/pages/MFAPage";
+import Welcome from "./pages/Auth/Welcome";
+import Register from "./pages/Auth/Register";
+import { defaultTheme } from "./theme";
 
 setupIonicReact();
 
 const App: React.FC = () => (
     <IonApp>
-        <IonReactRouter>
-            <IonRouterOutlet>
-                <Route exact path="/">
-                    <LandingPage />
-                </Route>
-                <Route exact path="/register">
-                    <RegisterPage />
-                </Route>
-                <Route exact path="/mfa">
-                    
+        <ThemeProvider theme={defaultTheme}>
+            <IonReactRouter>
+                <IonRouterOutlet>
+                    <Route exact path="/">
+                        <Welcome />
+                    </Route>
+                    <Route exact path="/register">
+                        <Register />
+                    </Route>
+                    {/* <Route exact path="/mfa">
                     <MFAPage />
-                </Route>
-            </IonRouterOutlet>
-        </IonReactRouter>
+                </Route> */}
+                </IonRouterOutlet>
+            </IonReactRouter>
+        </ThemeProvider>
     </IonApp>
 );
 

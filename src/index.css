@@ -237,11 +237,16 @@ http://ionicframework.com/docs/theming/ */
 }
 
 @font-face {
-    font-family: FigTree;
+    font-family: 'Figtree', sans-serif;
     src: url('../assets/fonts/Figtree-Regular.ttf');
 }
 
 @font-face {
-    font-family: Lato;
+    font-family: 'Lato', sans-serif;;
     src: url('../assets/fonts/Lato-Regular.ttf');
+}
+
+body {
+    font-family: 'Figtree', sans-serif;
+    background-color: #f2f2f2;
 }
