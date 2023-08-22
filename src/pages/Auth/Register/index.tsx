@@ -3,17 +3,17 @@ import { Window, Screen } from "../../../components/ui/ViewPort";
 import { Button, Typography, Box, IconButton, TextField } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-type SignUpFormData = {
+interface SignUpFormData {
     name: string;
     email: string;
     phone: string;
     isValid: boolean;
-};
+}
 
-type SignUpFormAction = {
+interface SignUpFormAction {
     type: "UPDATE_NAME" | "UPDATE_EMAIL" | "UPDATE_PHONE";
     payload: string;
-};
+}
 
 const handleChange = (
     prevState: SignUpFormData,
@@ -33,7 +33,7 @@ const handleChange = (
         default:
             return nextState;
     }
-    // perform validation
+    // TODO: perform validation
     if (nextState.email && nextState.name && nextState.phone) {
         nextState.isValid = true;
     } else {
@@ -52,6 +52,11 @@ const Register: React.FC = () => {
             isValid: false,
         },
     );
+
+    const handleFormSubmit = () => {
+        // TODO: submit
+    };
+
     return (
         <Screen>
             <Window
@@ -123,6 +128,7 @@ const Register: React.FC = () => {
                     disabled={!formData.isValid}
                     fullWidth
                     variant="contained"
+                    onClick={handleFormSubmit}
                 >
                     Sign Up
                 </Button>

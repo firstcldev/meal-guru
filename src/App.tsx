@@ -27,6 +27,8 @@ import "@ionic/react/css/display.css";
 import Welcome from "./pages/Auth/Welcome";
 import Register from "./pages/Auth/Register";
 import { defaultTheme } from "./theme";
+import Pantry from "./pages/Pantry";
+import AddToPantry from "./pages/AddToPantry";
 
 setupIonicReact();
 
@@ -41,9 +43,12 @@ const App: React.FC = () => (
                     <Route exact path="/register">
                         <Register />
                     </Route>
-                    {/* <Route exact path="/mfa">
-                    <MFAPage />
-                </Route> */}
+                    <Route exact path="/pantry">
+                        <Pantry />
+                    </Route>
+                    <Route exact path="/add-to-pantry">
+                        <AddToPantry />
+                    </Route>
                 </IonRouterOutlet>
             </IonReactRouter>
         </ThemeProvider>
