@@ -4,10 +4,10 @@ export interface Item {
 
 export type AddToPantryFormData = {
     item: Item;
-    quantity?: number;
-    unit?: "pcs" | "gm" | "kg" | "ltr" | "ml";
-    purchaseDate?: Date;
-    expiryDate?: Date;
+    quantity: number;
+    unit: "Weight" | "Volume" | "Pieces";
+    purchaseDate: Date | null;
+    expiryDate: Date | null;
 };
 
 export type AddToPantryFormUpdateAction = {

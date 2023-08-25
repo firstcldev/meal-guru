@@ -28,13 +28,14 @@ const SearchDrawer: React.FC<SearchDrawerProps> = ({ ...props }) => {
                     paddingY: 3,
                     display: "flex",
                     flexDirection: "column",
-                    minHeight: "400px",
+                    minHeight: "500px",
                 }}
             >
                 <TextField
                     fullWidth
                     label="Search Items"
                     placeholder="Ex: Tomato"
+                    autoFocus
                 />
             </Box>
             {/* render list of items, onClick: call setItem(item) */}
@@ -61,7 +62,15 @@ const WhatsInPantry: React.FC<WhatsInPantryProps> = ({ ...props }) => {
                 borderRadius: 2,
             }}
         >
-            <Typography variant="h6">What's in your Pantry?</Typography>
+            <Box
+                width={"100%"}
+                display={"flex"}
+                justifyContent={"space-between"}
+            >
+                <Typography variant="h6">What's in your Pantry?</Typography>
+                {/* mock */}
+                {/* <Typography variant="subtitle1">Tomato</Typography> */}
+            </Box>
             <Button
                 variant="outlined"
                 color="secondary"
@@ -70,7 +79,7 @@ const WhatsInPantry: React.FC<WhatsInPantryProps> = ({ ...props }) => {
                 fullWidth
                 onClick={() => setSearchDrawerOpen(true)}
             >
-                Search
+                Search to add
             </Button>
             <SearchDrawer
                 open={searchDrawerOpen}

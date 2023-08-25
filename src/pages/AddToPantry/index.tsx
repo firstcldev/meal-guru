@@ -1,10 +1,20 @@
 import { Screen, Window } from "../../components/ui/ViewPort";
-import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+    AppBar,
+    Box,
+    Button,
+    IconButton,
+    Toolbar,
+    Typography,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import WhatsInPantry from "./WhatsInPantry";
 import { useReducer } from "react";
 import { AddToPantryFormData, AddToPantryFormUpdateAction } from "./types";
+import PurchaseAndExpiry from "./PurchaseAndExpiry";
+import Quantity from "./Quantity";
+import { IonContent } from "@ionic/react";
 
 function handleFormUpdates(
     prevState: AddToPantryFormData,
@@ -29,9 +39,9 @@ function handleFormUpdates(
 const initialState: AddToPantryFormData = {
     item: "",
     quantity: 0,
-    unit: "pcs",
-    purchaseDate: new Date(),
-    expiryDate: new Date(),
+    unit: "Weight",
+    purchaseDate: null,
+    expiryDate: null,
 };
 
 const AddToPantry = () => {
@@ -55,25 +65,53 @@ const AddToPantry = () => {
                 </AppBar>
 
                 {/* body */}
-                <Box
-                    width={"100%"}
-                    height={"100%"}
-                    display={"flex"}
-                    flexDirection={"column"}
-                    padding={3}
-                    paddingY={12}
-                    overflow={"auto"}
-                    sx={{
-                        transition: "all",
-                        transitionDelay: "300ms",
-                        transitionTimingFunction: "ease-out",
-                    }}
+                <IonContent>
+                    <Box
+                        width={"100%"}
+                        height={"100%"}
+                        display={"flex"}
+                        flexDirection={"column"}
+                        gap={3}
+                        padding={3}
+                        marginTop={12}
+                        marginBottom={16}
+                    >
+                        <WhatsInPantry
+                            formData={formData}
+                            updateFormData={updateFormData}
+                        />
+                        <PurchaseAndExpiry
+                            formData={formData}
+                            updateFormData={updateFormData}
+                        />
+                        <Quantity
+                            formData={formData}
+                            updateFormData={updateFormData}
+                        />
+                    </Box>
+                </IonContent>
+
+                <AppBar
+                    position="fixed"
+                    color="inherit"
+                    sx={{ top: "auto", bottom: 0 }}
                 >
-                    <WhatsInPantry
-                        formData={formData}
-                        updateFormData={updateFormData}
-                    />
-                </Box>
+                    <Toolbar
+                        sx={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <Link to="/pantry">
+                            <Button variant="text" color="secondary">
+                                Done Adding
+                            </Button>
+                        </Link>
+                        {/* pantry data from formData is sent to server */}
+                        <Button variant="contained">Add to Pantry</Button>
+                    </Toolbar>
+                </AppBar>
             </Window>
         </Screen>
     );

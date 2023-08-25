@@ -8,6 +8,9 @@ import {
 //@ts-ignore
 import { IonReactRouter } from "@ionic/react-router";
 import { ThemeProvider } from "@mui/material/styles";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import "dayjs/locale/en-gb";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -24,33 +27,43 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
+
 import Welcome from "./pages/Auth/Welcome";
 import Register from "./pages/Auth/Register";
 import { defaultTheme } from "./theme";
 import Pantry from "./pages/Pantry";
 import AddToPantry from "./pages/AddToPantry";
+import StorageGuru from "./pages/StorageGuru";
 
 setupIonicReact();
 
 const App: React.FC = () => (
     <IonApp>
         <ThemeProvider theme={defaultTheme}>
-            <IonReactRouter>
-                <IonRouterOutlet>
-                    <Route exact path="/">
-                        <Welcome />
-                    </Route>
-                    <Route exact path="/register">
-                        <Register />
-                    </Route>
-                    <Route exact path="/pantry">
-                        <Pantry />
-                    </Route>
-                    <Route exact path="/add-to-pantry">
-                        <AddToPantry />
-                    </Route>
-                </IonRouterOutlet>
-            </IonReactRouter>
+            <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                adapterLocale="en-gb"
+            >
+                <IonReactRouter>
+                    <IonRouterOutlet>
+                        <Route exact path="/">
+                            <Welcome />
+                        </Route>
+                        <Route exact path="/register">
+                            <Register />
+                        </Route>
+                        <Route exact path="/pantry">
+                            <Pantry />
+                        </Route>
+                        <Route exact path="/add-to-pantry">
+                            <AddToPantry />
+                        </Route>
+                        <Route exact path="/storage-guru">
+                            <StorageGuru />
+                        </Route>
+                    </IonRouterOutlet>
+                </IonReactRouter>
+            </LocalizationProvider>
         </ThemeProvider>
     </IonApp>
 );
