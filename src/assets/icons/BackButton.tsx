@@ -1,4 +1,4 @@
-const BackButton: React.FC = () => {
+const BackButton: React.FC<JSX.IntrinsicElements["svg"]> = ({ ...props }) => {
     return (
         <svg
             width="24"
@@ -6,6 +6,7 @@ const BackButton: React.FC = () => {
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            {...props}
         >
             <path
                 d="M9.57 5.93005L3.5 12.0001L9.57 18.0701M20.5 12.0001H3.67"

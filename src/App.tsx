@@ -1,13 +1,17 @@
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import {
     IonApp,
     IonRouterOutlet,
-    IonTabBar,
-    IonTabs,
     setupIonicReact,
+    //@ts-ignore
 } from "@ionic/react";
+//@ts-ignore
 import { IonReactRouter } from "@ionic/react-router";
-import { ellipse, square, triangle } from "ionicons/icons";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "@mui/material/styles";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import "dayjs/locale/en-gb";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -25,30 +29,63 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 
-/* Theme variables */
-import "./theme/variables.css";
-import LandingPage from "./components/pages/LandingPage";
-import RegisterPage from "./components/pages/RegisterPage";
-import MFAPage from "./components/pages/MFAPage";
+import Welcome from "./pages/Auth/Welcome";
+import Register from "./pages/Auth/Register";
+import { defaultTheme } from "./theme";
+import Pantry from "./pages/Pantry";
+import AddToPantry from "./pages/AddToPantry";
+import StorageGuru from "./pages/StorageGuru";
 
 setupIonicReact();
 
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+            staleTime: Infinity,
+            refetchOnMount: false,
+            refetchOnReconnect: false,
+            refetchInterval: Infinity,
+            cacheTime: Infinity,
+            retry: false,
+            retryOnMount: false,
+        },
+        mutations: {
+            retry: false,
+        },
+    },
+});
+
 const App: React.FC = () => (
     <IonApp>
-        <IonReactRouter>
-            <IonRouterOutlet>
-                <Route exact path="/">
-                    <LandingPage />
-                </Route>
-                <Route exact path="/register">
-                    <RegisterPage />
-                </Route>
-                <Route exact path="/mfa">
-                    
-                    <MFAPage />
-                </Route>
-            </IonRouterOutlet>
-        </IonReactRouter>
+        <ThemeProvider theme={defaultTheme}>
+            <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                adapterLocale="en-gb"
+            >
+                <QueryClientProvider client={queryClient}>
+                    <IonReactRouter>
+                        <IonRouterOutlet>
+                            <Route exact path="/">
+                                <Welcome />
+                            </Route>
+                            <Route exact path="/register">
+                                <Register />
+                            </Route>
+                            <Route exact path="/pantry">
+                                <Pantry />
+                            </Route>
+                            <Route exact path="/add-to-pantry">
+                                <AddToPantry />
+                            </Route>
+                            <Route exact path="/storage-guru">
+                                <StorageGuru />
+                            </Route>
+                        </IonRouterOutlet>
+                    </IonReactRouter>
+                </QueryClientProvider>
+            </LocalizationProvider>
+        </ThemeProvider>
     </IonApp>
 );
 
