@@ -1,5 +1,6 @@
 import { SearchOutlined } from "@mui/icons-material";
 import {
+    Autocomplete,
     Box,
     Button,
     Drawer,
@@ -10,12 +11,18 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { AddToPantryFormData, Item, UpdateFormData } from "./types";
+import { useQuery } from "@tanstack/react-query";
+import { getAllPantryDetails } from "../../API";
 
 type SearchDrawerProps = {
     setItem: (item: Item) => void;
 } & DrawerProps;
 
 const SearchDrawer: React.FC<SearchDrawerProps> = ({ ...props }) => {
+    const { data: allItems, isLoading: allItemsLoading } = useQuery({
+        queryKey: ["all-items"],
+        queryFn: getAllPantryDetails,
+    });
     return (
         <Drawer
             anchor={"bottom"}
@@ -31,11 +38,27 @@ const SearchDrawer: React.FC<SearchDrawerProps> = ({ ...props }) => {
                     minHeight: "500px",
                 }}
             >
-                <TextField
+                <Autocomplete
+                    options={
+                        allItems || [
+                            {
+                                Name: "A",
+                                Category: "A",
+                            },
+                        ]
+                    }
+                    groupBy={(option: any) => option?.Category}
+                    getOptionLabel={(option) => option.Name}
                     fullWidth
-                    label="Search Items"
-                    placeholder="Ex: Tomato"
-                    autoFocus
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            fullWidth
+                            variant="outlined"
+                            label="Item Name"
+                            placeholder="Ex. Tomato"
+                        />
+                    )}
                 />
             </Box>
             {/* render list of items, onClick: call setItem(item) */}

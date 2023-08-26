@@ -1,6 +1,5 @@
-export interface Item {
-    // TODO: define item
-}
+// TODO: define item
+export type Item = any;
 
 export type AddToPantryFormData = {
     item: Item;
