@@ -1,5 +1,6 @@
 import {
     Box,
+    InputAdornment,
     Paper,
     TextField,
     ToggleButton,
@@ -60,8 +61,14 @@ const InputFields: React.FC<InputFieldsProps> = ({ ...props }) => {
                 onChange={(e) =>
                     handleValueChange("big", Number(e.target.value))
                 }
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            {bigUnitLabel}
+                        </InputAdornment>
+                    ),
+                }}
             />
-            <Typography>{bigUnitLabel}</Typography>
             {(["Weight", "Volume"] as (typeof props.unit)[]).includes(
                 props.unit,
             ) && (
@@ -77,8 +84,14 @@ const InputFields: React.FC<InputFieldsProps> = ({ ...props }) => {
                         onChange={(e) =>
                             handleValueChange("small", Number(e.target.value))
                         }
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    {smallUnitLabel}
+                                </InputAdornment>
+                            ),
+                        }}
                     />
-                    <Typography>{smallUnitLabel}</Typography>
                 </>
             )}
         </Box>

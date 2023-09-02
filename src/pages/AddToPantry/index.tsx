@@ -37,7 +37,7 @@ function handleFormUpdates(
 }
 
 const initialState: AddToPantryFormData = {
-    item: "",
+    item: null,
     quantity: 0,
     unit: "Weight",
     purchaseDate: null,
@@ -68,13 +68,12 @@ const AddToPantry = () => {
                 <IonContent>
                     <Box
                         width={"100%"}
-                        height={"100%"}
                         display={"flex"}
                         flexDirection={"column"}
                         gap={3}
                         padding={3}
-                        marginTop={12}
-                        marginBottom={16}
+                        marginTop={9}
+                        marginBottom={9}
                     >
                         <WhatsInPantry
                             formData={formData}
@@ -109,7 +108,12 @@ const AddToPantry = () => {
                             </Button>
                         </Link>
                         {/* pantry data from formData is sent to server */}
-                        <Button variant="contained">Add to Pantry</Button>
+                        <Button
+                            onClick={() => console.log(formData)}
+                            variant="contained"
+                        >
+                            Add to Pantry
+                        </Button>
                     </Toolbar>
                 </AppBar>
             </Window>

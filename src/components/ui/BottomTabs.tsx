@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { Dns as PantryIcon } from "@mui/icons-material";
-import { PermDeviceInformation as StorageGuruIcon } from "@mui/icons-material";
+import { Kitchen as StorageGuruIcon } from "@mui/icons-material";
 import { AccountCircle as ProfileIcon } from "@mui/icons-material";
 import { useHistory } from "react-router";
 

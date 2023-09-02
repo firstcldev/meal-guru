@@ -1,5 +1,6 @@
-// TODO: define item
-export type Item = any;
+import { GetAllPantryDetailsData } from "../../API";
+
+export type Item = GetAllPantryDetailsData[0] | null;
 
 export type AddToPantryFormData = {
     item: Item;
