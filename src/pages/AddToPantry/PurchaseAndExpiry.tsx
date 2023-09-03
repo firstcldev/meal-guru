@@ -50,7 +50,7 @@ const PurchaseAndExpiry: React.FC<PurchaseAndExpiryProps> = ({ ...props }) => {
                     borderRadius: 2,
                     borderEndEndRadius: 0,
                     borderEndStartRadius: 0,
-                    backgroundColor: "primary.light",
+                    backgroundColor: "#F5FBF0",
                 }}
                 control={
                     <Checkbox

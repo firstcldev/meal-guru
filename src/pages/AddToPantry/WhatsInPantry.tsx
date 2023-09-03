@@ -3,6 +3,7 @@ import {
     Autocomplete,
     Box,
     Button,
+    Divider,
     Drawer,
     DrawerProps,
     Paper,
@@ -12,10 +13,12 @@ import {
 import { useState } from "react";
 import { AddToPantryFormData, Item, UpdateFormData } from "./types";
 import { useQuery } from "@tanstack/react-query";
-import { getAllPantryDetails } from "../../API";
+import { getAllPantryDetails, GetAllPantryDetailsData } from "../../API";
+import { Kitchen as StorageGuruIcon } from "@mui/icons-material";
 
 type SearchDrawerProps = {
     setItem: (item: Item) => void;
+    selectedItem: Item;
 } & DrawerProps;
 
 const SearchDrawer: React.FC<SearchDrawerProps> = ({ ...props }) => {
@@ -25,9 +28,10 @@ const SearchDrawer: React.FC<SearchDrawerProps> = ({ ...props }) => {
     });
     return (
         <Drawer
+            open={props?.open}
+            onClose={props.onClose}
             anchor={"bottom"}
-            {...props}
-            sx={{ borderTopRightRadius: "25px", backdropFilter: "blur(5px)" }}
+            sx={{ backdropFilter: "blur(5px)" }}
         >
             <Box
                 sx={{
@@ -35,20 +39,25 @@ const SearchDrawer: React.FC<SearchDrawerProps> = ({ ...props }) => {
                     paddingY: 3,
                     display: "flex",
                     flexDirection: "column",
-                    minHeight: "500px",
+                    minHeight: "550px",
                 }}
             >
                 <Autocomplete
+                    disabled={allItemsLoading}
                     options={
-                        allItems || [
-                            {
-                                Name: "A",
-                                Category: "A",
-                            },
-                        ]
+                        allItems != undefined
+                            ? allItems
+                            : ([] as GetAllPantryDetailsData)
                     }
-                    groupBy={(option: any) => option?.Category}
-                    getOptionLabel={(option) => option.Name}
+                    value={props.selectedItem}
+                    onChange={(e, v) => {
+                        props.setItem(v);
+                        if (v != null) {
+                            props.onClose && props.onClose(e, "backdropClick");
+                        }
+                    }}
+                    groupBy={(option) => option?.Category.S}
+                    getOptionLabel={(option) => option.Name.S}
                     fullWidth
                     renderInput={(params) => (
                         <TextField
@@ -56,12 +65,13 @@ const SearchDrawer: React.FC<SearchDrawerProps> = ({ ...props }) => {
                             fullWidth
                             variant="outlined"
                             label="Item Name"
-                            placeholder="Ex. Tomato"
+                            placeholder={
+                                allItemsLoading ? "Plese wait..." : "Ex. Tomato"
+                            }
                         />
                     )}
                 />
             </Box>
-            {/* render list of items, onClick: call setItem(item) */}
         </Drawer>
     );
 };
@@ -90,10 +100,56 @@ const WhatsInPantry: React.FC<WhatsInPantryProps> = ({ ...props }) => {
                 display={"flex"}
                 justifyContent={"space-between"}
             >
-                <Typography variant="h6">What's in your Pantry?</Typography>
-                {/* mock */}
-                {/* <Typography variant="subtitle1">Tomato</Typography> */}
+                <Typography
+                    variant={props.formData.item ? "subtitle1" : "h6"}
+                    color={props.formData.item ? "#737373" : "inherit"}
+                >
+                    {props.formData.item ? "What" : "What's in your Pantry?"}
+                </Typography>
+                <Typography variant="subtitle1">
+                    {props.formData.item?.Name?.S}
+                </Typography>
             </Box>
+            {/* storage tips */}
+            {props.formData.item && (
+                <Box
+                    sx={{ backgroundColor: "#EBF9FC", marginX: -3, padding: 3 }}
+                >
+                    <Typography
+                        variant="subtitle1"
+                        color={"#00A0AC"}
+                        display={"flex"}
+                        alignItems={"center"}
+                        gap={1}
+                    >
+                        <StorageGuruIcon />
+                        {"  "} Storage Tip
+                    </Typography>
+                    <Typography marginY={2} color={"#737373"}>
+                        {props.formData.item?.["Storage Tips"]?.S}
+                    </Typography>
+                    <Divider sx={{ marginBottom: 2 }} />
+                    <Typography
+                        variant="subtitle2"
+                        component={"span"}
+                        color={"#737373"}
+                    >
+                        <Typography component={"span"} color="#00A0AC">
+                            {">>"}
+                        </Typography>{" "}
+                        You can always find this in{" "}
+                        <Typography
+                            component={"span"}
+                            fontWeight="bold"
+                            variant="subtitle2"
+                        >{`"Storage Guru"`}</Typography>{" "}
+                        Tab{" "}
+                        <Typography component={"span"} color="#00A0AC">
+                            {"<<"}
+                        </Typography>
+                    </Typography>
+                </Box>
+            )}
             <Button
                 variant="outlined"
                 color="secondary"
@@ -102,11 +158,12 @@ const WhatsInPantry: React.FC<WhatsInPantryProps> = ({ ...props }) => {
                 fullWidth
                 onClick={() => setSearchDrawerOpen(true)}
             >
-                Search to add
+                {props.formData.item ? "Change Item" : "Search to Add"}
             </Button>
             <SearchDrawer
                 open={searchDrawerOpen}
                 onClose={() => setSearchDrawerOpen(false)}
+                selectedItem={props.formData.item}
                 setItem={(item: Item) =>
                     props?.updateFormData({
                         type: "UPDATE_ITEM",
