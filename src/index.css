@@ -1,8 +1,23 @@
+@font-face {
+    font-family: 'Figtree';
+    src: url('./assets/fonts/Figtree.ttf');
+}
+
+@font-face {
+    font-family: 'Figtree', italic;
+    src: url('./assets/fonts/FigtreeItalic.ttf');
+}
+
+@font-face {
+    font-family: 'Lato' ;
+    src: url('./assets/fonts/Lato-Regular.ttf');
+}
 /* Ionic Variables and Theming. For more info, please see:
 http://ionicframework.com/docs/theming/ */
 /** Ionic CSS Variables **/
 :root {
     --ion-background-color: #f2f2f2;
+    --ion-font-family: "Figtree";
     /** primary **/
     --ion-color-primary: #2dd36f;
     --ion-color-primary-rgb: 45, 211, 111;
@@ -78,18 +93,10 @@ http://ionicframework.com/docs/theming/ */
     --ion-font-family: 'FigTree';
 }
 
-
-@font-face {
-    font-family: 'Figtree', sans-serif;
-    src: url('./assets/fonts/Figtree-Regular.ttf');
-}
-
-@font-face {
-    font-family: 'Lato', sans-serif;;
-    src: url('./assets/fonts/Lato-Regular.ttf');
+* {
+    font-family: "FigTree";
 }
 
 body {
-    font-family: 'Figtree', sans-serif;
     background-color: #f2f2f2;
 }
