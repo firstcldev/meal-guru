@@ -39,9 +39,19 @@ const TipDrawer: React.FC<TipDrawerProps> = ({ ...props }) => {
                 >
                     <Close />
                 </IconButton>
-                <Typography variant="h5" marginTop={2}>
+                <Typography variant="h5" marginY={2}>
                     {props.item?.Name.S}
                 </Typography>
+                <img
+                    src={props?.item?.URL?.S}
+                    alt={props.item?.Name?.S}
+                    style={{
+                        width: "100%",
+                        objectFit: "cover",
+                        aspectRatio: "2 / 1",
+                        borderRadius: "8px",
+                    }}
+                />
                 <Typography marginY={2} color={"#737373"}>
                     {props.item?.["Storage Tips"]?.S}
                 </Typography>
