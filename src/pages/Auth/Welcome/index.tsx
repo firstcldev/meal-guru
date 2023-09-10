@@ -20,18 +20,21 @@ const Welcome: React.FC = () => {
                 <Typography marginTop={"120px"} variant="h6">
                     Create an account to get started.
                 </Typography>
-                <Button
-                    href="/register"
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    sx={{ marginY: "20px" }}
-                >
-                    I'm new, sign me up
-                </Button>
-                <Button variant="outlined" color="secondary" fullWidth>
-                    Sign in
-                </Button>
+                <Link to="/register" style={{ width: "100%" }}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        sx={{ marginY: "20px" }}
+                    >
+                        I'm new, sign me up
+                    </Button>
+                </Link>
+                <Link to="/login" style={{ width: "100%" }}>
+                    <Button variant="outlined" color="secondary" fullWidth>
+                        Sign in
+                    </Button>
+                </Link>
             </Window>
         </Screen>
     );
