@@ -38,7 +38,8 @@ import StorageGuru from "./pages/StorageGuru";
 import Login from "./pages/Auth/Login";
 import ConfirmEmail from "./pages/Auth/ConfirmMail";
 import { useMemo } from "react";
-import { userPool } from "./Cognito";
+import { getCurrentCognitoUser } from "./Cognito";
+import Profile from "./pages/Profile";
 
 setupIonicReact();
 
@@ -62,14 +63,7 @@ const queryClient = new QueryClient({
 
 const App: React.FC = () => {
     const currentUser = useMemo(() => {
-        const currentUser = userPool.getCurrentUser();
-        currentUser?.getSession((err: any, session: any) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-        });
-        return currentUser;
+        return getCurrentCognitoUser();
     }, []);
     return (
         <IonApp>
@@ -81,6 +75,7 @@ const App: React.FC = () => {
                     <QueryClientProvider client={queryClient}>
                         <IonReactRouter>
                             <IonRouterOutlet>
+                                {/* if user is logged in */}
                                 {currentUser ? (
                                     <>
                                         {/* redirect to pantry page if user is logged in  */}
@@ -92,6 +87,9 @@ const App: React.FC = () => {
                                         </Route>
                                         <Route exact path="/storage-guru">
                                             <StorageGuru />
+                                        </Route>
+                                        <Route exact path="/profile">
+                                            <Profile />
                                         </Route>
                                         <Route exact path="/*">
                                             <Redirect to="/pantry" />

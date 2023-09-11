@@ -5,9 +5,11 @@ export type Item = GetAllPantryDetailsData[0] | null;
 export type AddToPantryFormData = {
     item: Item;
     quantity: number;
-    unit: "Weight" | "Volume" | "Pieces";
+    unit: "weight" | "volume" | "quantity";
     purchaseDate: Date | null;
     expiryDate: Date | null;
+
+    isValid: boolean;
 };
 
 export type AddToPantryFormUpdateAction = {

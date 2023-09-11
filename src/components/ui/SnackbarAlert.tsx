@@ -2,12 +2,19 @@ import { Close } from "@mui/icons-material";
 import { Alert, IconButton, Snackbar } from "@mui/material";
 import React from "react";
 
-const SnackbarAlert: React.FC<{
+export type SnackbarAlertState = {
+    open: boolean;
+    message: string;
+    severity: "success" | "error" | "warning" | "info";
+};
+
+export type SnackbarAlertProps = {
     open: boolean;
     message: string;
     severity: "success" | "error" | "warning" | "info";
     onClose?: () => void;
-}> = ({ ...props }) => {
+};
+const SnackbarAlert: React.FC<SnackbarAlertProps> = ({ ...props }) => {
     return (
         <Snackbar
             open={props.open}

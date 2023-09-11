@@ -16,7 +16,9 @@ import { isEmailValid, isPasswordValid } from "../validators";
 import { Emailfield, Namefield, Passwordfield } from "../fields";
 import { useMutation } from "@tanstack/react-query";
 import { Close } from "@mui/icons-material";
-import SnackbarAlert from "../../../components/ui/SnackbarAlert";
+import SnackbarAlert, {
+    SnackbarAlertState,
+} from "../../../components/ui/SnackbarAlert";
 
 interface SignUpFormData {
     name: string;
@@ -75,11 +77,7 @@ const Register: React.FC = () => {
     );
 
     // snackbar for feedback
-    const [snackBar, setSnackBar] = useState<{
-        open: boolean;
-        message: string;
-        severity: "error" | "success";
-    }>({
+    const [snackBar, setSnackBar] = useState<SnackbarAlertState>({
         open: false,
         message: "",
         severity: "success",

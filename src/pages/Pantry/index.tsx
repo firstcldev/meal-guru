@@ -1,11 +1,27 @@
 import { Screen, Window } from "../../components/ui/ViewPort";
-import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import {
+    AppBar,
+    Box,
+    CircularProgress,
+    Toolbar,
+    Typography,
+} from "@mui/material";
 
 import BottomTabs from "../../components/ui/BottomTabs";
 import EmptyPantryDisplay from "./EmptyPantryDisplay";
+import { useQuery } from "@tanstack/react-query";
+import { getCurrentCognitoUserData } from "../../Cognito";
+import { getPantryByEmail } from "../../API";
 
 const Pantry = () => {
-    const PantryData = false; //TODO: fetchdata
+    const { data: userData, isLoading: isUserDataLoading } = useQuery(
+        ["profile"],
+        getCurrentCognitoUserData,
+    );
+    const { data: pantryData, isLoading: isPantryLoading } = useQuery(
+        ["pantry", userData?.email],
+        async () => await getPantryByEmail(userData?.email as string),
+    );
     return (
         <Screen>
             <Window>
@@ -14,7 +30,9 @@ const Pantry = () => {
                         <Typography variant="h6">My Pantry</Typography>
                     </Toolbar>
                 </AppBar>
-                {PantryData ? (
+                {isUserDataLoading || isPantryLoading ? (
+                    <CircularProgress />
+                ) : pantryData ? (
                     <Box>{/* pantry UI  */}</Box>
                 ) : (
                     <EmptyPantryDisplay />

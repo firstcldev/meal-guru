@@ -1,20 +1,26 @@
 import axios from "axios";
 
 const sampleObject = {
+    "Freshness Tips": {
+        S: "Papayas change color on ripening",
+    },
     "Storage Tips": {
-        S: "Fennel is a sensitive plant",
+        S: "Store the ripe papayas (yellow-ish in colour) in your fridge.",
+    },
+    ID: {
+        N: "7",
     },
     "Shelf Life": {
-        S: "9",
+        S: "5",
     },
     Category: {
-        S: "Vegetables",
+        S: "Fruits",
     },
     URL: {
-        S: "",
+        S: "https://s3.amazonaws.com/grocery-project/default_product_images/Papaya.jpg",
     },
     Name: {
-        S: "Fennel",
+        S: "Papaya",
     },
 };
 

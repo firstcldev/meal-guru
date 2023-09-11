@@ -14,7 +14,9 @@ import { useHistory } from "react-router-dom";
 import { confirmUserWithCode, resendConfirmationCode } from "../../../Cognito";
 import { useMutation } from "@tanstack/react-query";
 import { Close } from "@mui/icons-material";
-import SnackbarAlert from "../../../components/ui/SnackbarAlert";
+import SnackbarAlert, {
+    SnackbarAlertState,
+} from "../../../components/ui/SnackbarAlert";
 
 const ConfirmEmail: React.FC = () => {
     const history = useHistory();
@@ -31,11 +33,7 @@ const ConfirmEmail: React.FC = () => {
     }, []);
 
     // snackbar for feedback
-    const [snackBar, setSnackBar] = useState<{
-        open: boolean;
-        message: string;
-        severity: "error" | "success";
-    }>({
+    const [snackBar, setSnackBar] = useState<SnackbarAlertState>({
         open: false,
         message: "",
         severity: "success",

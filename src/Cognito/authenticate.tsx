@@ -25,14 +25,25 @@ export function authenticateUser(
         };
         const cognitoUser = new CognitoUser(userData);
 
+        let output;
         cognitoUser.authenticateUser(authenticationDetails, {
             onSuccess: (result) => {
-                resolve({ data: result });
+                output = result;
             },
 
             onFailure: (err) => {
                 reject({ error: err.message || JSON.stringify(err) });
             },
         });
+        cognitoUser.setDeviceStatusRemembered({
+            onSuccess: function (result) {
+                console.log("Device status remembered");
+            },
+            onFailure: function (err) {
+                console.log("Device status not remembered", err);
+            },
+        });
+
+        resolve({ data: output });
     });
 }

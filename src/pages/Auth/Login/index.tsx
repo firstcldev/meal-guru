@@ -15,7 +15,9 @@ import { useMutation } from "@tanstack/react-query";
 import { authenticateUser } from "../../../Cognito";
 import { Close } from "@mui/icons-material";
 import { isEmailValid } from "../validators";
-import SnackbarAlert from "../../../components/ui/SnackbarAlert";
+import SnackbarAlert, {
+    SnackbarAlertState,
+} from "../../../components/ui/SnackbarAlert";
 import { useIonRouter } from "@ionic/react";
 
 interface LoginFormData {
@@ -66,11 +68,7 @@ const Login: React.FC = () => {
         },
     );
     // snackbar for feedback
-    const [snackBar, setSnackBar] = useState<{
-        open: boolean;
-        message: string;
-        severity: "error" | "success";
-    }>({
+    const [snackBar, setSnackBar] = useState<SnackbarAlertState>({
         open: false,
         message: "",
         severity: "success",

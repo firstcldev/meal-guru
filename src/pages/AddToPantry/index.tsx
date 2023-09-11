@@ -10,38 +10,61 @@ import {
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import WhatsInPantry from "./WhatsInPantry";
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { AddToPantryFormData, AddToPantryFormUpdateAction } from "./types";
 import PurchaseAndExpiry from "./PurchaseAndExpiry";
 import Quantity from "./Quantity";
 import { IonContent } from "@ionic/react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { modifyPantryByOps } from "../../API/modifyPantryByOps";
+import { getCurrentCognitoUserData } from "../../Cognito";
+import dayjs from "dayjs";
+import SnackbarAlert, {
+    SnackbarAlertState,
+} from "../../components/ui/SnackbarAlert";
 
 function handleFormUpdates(
     prevState: AddToPantryFormData,
     action: AddToPantryFormUpdateAction,
 ): AddToPantryFormData {
+    const nextState = { ...prevState };
     switch (action.type) {
         case "UPDATE_ITEM":
-            return { ...prevState, item: action.payload.item };
+            nextState.item = action.payload.item;
+            break;
         case "UPDATE_QUANTITY":
-            return { ...prevState, quantity: action.payload.quantity };
+            nextState.quantity = action.payload.quantity;
+            break;
         case "UPDATE_UNIT":
-            return { ...prevState, unit: action.payload.unit };
+            nextState.unit = action.payload.unit;
+            break;
         case "UPDATE_PURCHASEDATE":
-            return { ...prevState, purchaseDate: action.payload.purchaseDate };
+            nextState.purchaseDate = action.payload.purchaseDate;
+            break;
         case "UPDATE_EXPIRYDATE":
-            return { ...prevState, expiryDate: action.payload.expiryDate };
+            nextState.expiryDate = action.payload.expiryDate;
+            break;
         default:
             return prevState;
     }
+    if (
+        nextState.item &&
+        nextState.quantity &&
+        nextState.unit &&
+        (nextState.expiryDate || nextState.purchaseDate)
+    ) {
+        nextState.isValid = true;
+    }
+    return nextState;
 }
 
 const initialState: AddToPantryFormData = {
     item: null,
     quantity: 0,
-    unit: "Weight",
+    unit: "weight",
     purchaseDate: null,
     expiryDate: null,
+    isValid: false,
 };
 
 const AddToPantry = () => {
@@ -49,6 +72,66 @@ const AddToPantry = () => {
         handleFormUpdates,
         initialState,
     );
+    const { data: userData, isLoading: isUserDataLoading } = useQuery(
+        ["profile"],
+        getCurrentCognitoUserData,
+    );
+    const [snackFeedback, setSnackFeedback] = useState<SnackbarAlertState>({
+        open: false,
+        message: "",
+        severity: "info",
+    });
+
+    const {
+        data,
+        isLoading: isAddingItem,
+        mutate: sendRequestToAddItem,
+    } = useMutation({
+        mutationKey: ["add-item", formData.item?.ID, formData.quantity],
+        mutationFn: async () => {
+            let computedExpiryDate: string;
+            if (formData.expiryDate) {
+                computedExpiryDate = dayjs(formData.expiryDate).format(
+                    "YYYY-MM-DD",
+                );
+            } else {
+                computedExpiryDate = dayjs(formData.purchaseDate)
+                    .add(Number(formData.item?.["Shelf Life"]), "days")
+                    .format("YYYY-MM-DD");
+            }
+
+            await modifyPantryByOps({
+                pantryItems: [
+                    {
+                        username: userData?.email as string,
+                        status: "Create",
+                        item: formData.item?.Name.S,
+                        unit: formData.unit,
+                        quantity: formData.quantity,
+                        purchaseDate: dayjs(formData.purchaseDate).format(
+                            "YYYY-MM-DD",
+                        ),
+                        expiryDate: computedExpiryDate,
+                    },
+                ],
+            });
+        },
+        onError: () => {
+            setSnackFeedback({
+                open: true,
+                message: "Something went wrong! Please try again later.",
+                severity: "error",
+            });
+        },
+        onSuccess: () => {
+            setSnackFeedback({
+                open: true,
+                message: "Item added to pantry successfully!",
+                severity: "success",
+            });
+        },
+    });
+
     return (
         <Screen>
             <Window>
@@ -107,15 +190,28 @@ const AddToPantry = () => {
                                 Done Adding
                             </Button>
                         </Link>
-                        {/* pantry data from formData is sent to server */}
                         <Button
-                            onClick={() => console.log(formData)}
+                            onClick={() => sendRequestToAddItem()}
+                            disabled={
+                                isAddingItem ||
+                                isUserDataLoading ||
+                                !formData.isValid
+                            }
                             variant="contained"
                         >
-                            Add to Pantry
+                            {isAddingItem ? "Adding..." : "Add to Pantry"}
                         </Button>
                     </Toolbar>
                 </AppBar>
+                <SnackbarAlert
+                    {...snackFeedback}
+                    onClose={() =>
+                        setSnackFeedback((snackFeedback) => ({
+                            ...snackFeedback,
+                            open: false,
+                        }))
+                    }
+                />
             </Window>
         </Screen>
     );
