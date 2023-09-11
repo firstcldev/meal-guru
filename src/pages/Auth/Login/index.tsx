@@ -5,42 +5,38 @@ import {
     Typography,
     Box,
     IconButton,
-    CircularProgress,
     Snackbar,
     Alert,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link, useHistory } from "react-router-dom";
-import { registerNewUser } from "../../../Cognito";
-import { isEmailValid, isPasswordValid } from "../validators";
-import { Emailfield, Namefield, Passwordfield } from "../fields";
+import { Emailfield, Passwordfield } from "../fields";
 import { useMutation } from "@tanstack/react-query";
+import { authenticateUser } from "../../../Cognito";
 import { Close } from "@mui/icons-material";
+import { isEmailValid } from "../validators";
 import SnackbarAlert, {
     SnackbarAlertState,
 } from "../../../components/ui/SnackbarAlert";
+import { useIonRouter } from "@ionic/react";
 
-interface SignUpFormData {
-    name: string;
+interface LoginFormData {
     email: string;
     password: string;
     isValid: boolean;
 }
 
-interface SignUpFormAction {
-    type: "UPDATE_NAME" | "UPDATE_EMAIL" | "UPDATE_PASSWORD";
+interface LoginFormAction {
+    type: "UPDATE_EMAIL" | "UPDATE_PASSWORD";
     payload: string;
 }
 
 const handleChange = (
-    prevState: SignUpFormData,
-    action: SignUpFormAction,
-): SignUpFormData => {
-    let nextState: SignUpFormData = structuredClone(prevState);
+    prevState: LoginFormData,
+    action: LoginFormAction,
+): LoginFormData => {
+    let nextState: LoginFormData = structuredClone(prevState);
     switch (action.type) {
-        case "UPDATE_NAME":
-            nextState.name = action.payload;
-            break;
         case "UPDATE_EMAIL":
             nextState.email = action.payload;
             break;
@@ -52,10 +48,8 @@ const handleChange = (
     }
     if (
         nextState.email &&
-        nextState.name &&
         nextState.password &&
-        isEmailValid(nextState.email) &&
-        isPasswordValid(nextState.password)
+        isEmailValid(nextState.email)
     ) {
         nextState.isValid = true;
     } else {
@@ -64,18 +58,15 @@ const handleChange = (
     return nextState;
 };
 
-const Register: React.FC = () => {
-    const history = useHistory();
+const Login: React.FC = () => {
     const [formData, updateFormData] = useReducer<typeof handleChange>(
         handleChange,
         {
-            name: "",
             email: "",
             password: "",
             isValid: false,
         },
     );
-
     // snackbar for feedback
     const [snackBar, setSnackBar] = useState<SnackbarAlertState>({
         open: false,
@@ -83,33 +74,27 @@ const Register: React.FC = () => {
         severity: "success",
     });
 
-    const { isLoading, mutate: sendRequestToRegister } = useMutation({
-        mutationFn: async (t) =>
-            await registerNewUser(
-                formData.name,
-                formData.email,
-                formData.password,
-            ),
-        mutationKey: ["register-new-user", formData.email],
-        onError: (response: any) =>
-            setSnackBar({
-                open: true,
-                message: response?.error as string,
-                severity: "error",
-            }),
+    const { isLoading, mutate: sendRequestToAuthenticate } = useMutation({
+        mutationKey: ["login", formData.email],
+        mutationFn: async () =>
+            await authenticateUser(formData.email, formData.password),
         onSuccess: (response) => {
             setSnackBar({
                 open: true,
-                message:
-                    "Successfully registered! Please check your email for verification.",
+                message: "Successfully logged in!",
                 severity: "success",
             });
-            //wait for 2.5 seconds and redirect to confirm page
+            //wait for 2.5 seconds and redirect to pantry page
             setTimeout(() => {
-                history.push(
-                    `/confirm-email?email=${response.data?.getUsername()}`,
-                );
+                window.location.reload();
             }, 2500);
+        },
+        onError: (response: any) => {
+            setSnackBar({
+                open: true,
+                message: response?.error,
+                severity: "error",
+            });
         },
     });
 
@@ -123,7 +108,7 @@ const Register: React.FC = () => {
                 <form
                     onSubmit={(e) => {
                         e.preventDefault();
-                        sendRequestToRegister();
+                        sendRequestToAuthenticate();
                     }}
                 >
                     <Box width={"100%"}>
@@ -133,21 +118,12 @@ const Register: React.FC = () => {
                             </IconButton>
                         </Link>
                         <Typography marginTop={"20px"} variant="h4">
-                            Register
+                            Sign in to Meal Guru
                         </Typography>
                         <Typography color={"GrayText"} marginY={"10px"}>
-                            Create an account to get started
+                            Enter your Email and Password
                         </Typography>
 
-                        <Namefield
-                            value={formData.name}
-                            onChange={(e) =>
-                                updateFormData({
-                                    type: "UPDATE_NAME",
-                                    payload: e.target.value,
-                                })
-                            }
-                        />
                         <Emailfield
                             value={formData.email}
                             onChange={(e) =>
@@ -183,17 +159,17 @@ const Register: React.FC = () => {
                             variant="contained"
                             type="submit"
                         >
-                            {isLoading ? "Loading..." : "Sign Up"}
+                            {isLoading ? "Loading..." : "Sign In"}
                         </Button>
                         <Typography component={"span"}>
-                            Already have an account?{" "}
-                            <Link to={"/login"}>
+                            {"Don't have an account? "}
+                            <Link to={"/register"}>
                                 <Typography
                                     component={"span"}
                                     color={"primary.dark"}
                                     fontWeight={600}
                                 >
-                                    Login
+                                    Sign Up
                                 </Typography>{" "}
                             </Link>
                         </Typography>
@@ -210,4 +186,4 @@ const Register: React.FC = () => {
     );
 };
 
-export default Register;
+export default Login;

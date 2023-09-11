@@ -22,9 +22,9 @@ type InputFieldsProps = {
 
 const InputFields: React.FC<InputFieldsProps> = ({ ...props }) => {
     const bigUnitLabel =
-        props?.unit == "Weight" ? "KG" : props.unit == "Volume" ? "LTR" : "Pcs";
+        props?.unit == "weight" ? "KG" : props.unit == "volume" ? "LTR" : "Pcs";
     const smallUnitLabel =
-        props?.unit == "Weight" ? "MG" : props.unit == "Volume" ? "ML" : "";
+        props?.unit == "weight" ? "MG" : props.unit == "volume" ? "ML" : "";
 
     const bigValue = Math.floor(props.value);
     const smallValue = Math.floor(
@@ -69,7 +69,7 @@ const InputFields: React.FC<InputFieldsProps> = ({ ...props }) => {
                     ),
                 }}
             />
-            {(["Weight", "Volume"] as (typeof props.unit)[]).includes(
+            {(["weight", "volume"] as (typeof props.unit)[]).includes(
                 props.unit,
             ) && (
                 <>
@@ -133,9 +133,9 @@ const Quantity: React.FC<QuantityProps> = ({ ...props }) => {
             >
                 {(
                     [
-                        "Weight",
-                        "Volume",
-                        "Pieces",
+                        "weight",
+                        "volume",
+                        "quantity",
                     ] as (typeof props.formData.unit)[]
                 ).map((unit) => (
                     <ToggleButton value={unit} key={unit}>

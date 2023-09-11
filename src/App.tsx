@@ -1,4 +1,4 @@
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import {
     IonApp,
     IonRouterOutlet,
@@ -29,12 +29,17 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
 
+import { defaultTheme } from "./theme";
 import Welcome from "./pages/Auth/Welcome";
 import Register from "./pages/Auth/Register";
-import { defaultTheme } from "./theme";
 import Pantry from "./pages/Pantry";
 import AddToPantry from "./pages/AddToPantry";
 import StorageGuru from "./pages/StorageGuru";
+import Login from "./pages/Auth/Login";
+import ConfirmEmail from "./pages/Auth/ConfirmMail";
+import { useMemo } from "react";
+import { getCurrentCognitoUser } from "./Cognito";
+import Profile from "./pages/Profile";
 
 setupIonicReact();
 
@@ -56,37 +61,66 @@ const queryClient = new QueryClient({
     },
 });
 
-const App: React.FC = () => (
-    <IonApp>
-        <ThemeProvider theme={defaultTheme}>
-            <LocalizationProvider
-                dateAdapter={AdapterDayjs}
-                adapterLocale="en-gb"
-            >
-                <QueryClientProvider client={queryClient}>
-                    <IonReactRouter>
-                        <IonRouterOutlet>
-                            <Route exact path="/">
-                                <Welcome />
-                            </Route>
-                            <Route exact path="/register">
-                                <Register />
-                            </Route>
-                            <Route exact path="/pantry">
-                                <Pantry />
-                            </Route>
-                            <Route exact path="/add-to-pantry">
-                                <AddToPantry />
-                            </Route>
-                            <Route exact path="/storage-guru">
-                                <StorageGuru />
-                            </Route>
-                        </IonRouterOutlet>
-                    </IonReactRouter>
-                </QueryClientProvider>
-            </LocalizationProvider>
-        </ThemeProvider>
-    </IonApp>
-);
+const App: React.FC = () => {
+    const currentUser = useMemo(() => {
+        return getCurrentCognitoUser();
+    }, []);
+    return (
+        <IonApp>
+            <ThemeProvider theme={defaultTheme}>
+                <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    adapterLocale="en-gb"
+                >
+                    <QueryClientProvider client={queryClient}>
+                        <IonReactRouter>
+                            <IonRouterOutlet>
+                                {/* if user is logged in */}
+                                {currentUser ? (
+                                    <>
+                                        {/* redirect to pantry page if user is logged in  */}
+                                        <Route exact path="/pantry">
+                                            <Pantry />
+                                        </Route>
+                                        <Route exact path="/add-to-pantry">
+                                            <AddToPantry />
+                                        </Route>
+                                        <Route exact path="/storage-guru">
+                                            <StorageGuru />
+                                        </Route>
+                                        <Route exact path="/profile">
+                                            <Profile />
+                                        </Route>
+                                        <Route exact path="/*">
+                                            <Redirect to="/pantry" />
+                                        </Route>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Route exact path="/">
+                                            <Welcome />
+                                        </Route>
+                                        <Route exact path="/register">
+                                            <Register />
+                                        </Route>
+                                        <Route exact path="/login">
+                                            <Login />
+                                        </Route>
+                                        <Route exact path="/confirm-email">
+                                            <ConfirmEmail />
+                                        </Route>
+                                        <Route exact path="/*">
+                                            <Redirect to="/" />
+                                        </Route>
+                                    </>
+                                )}
+                            </IonRouterOutlet>
+                        </IonReactRouter>
+                    </QueryClientProvider>
+                </LocalizationProvider>
+            </ThemeProvider>
+        </IonApp>
+    );
+};
 
 export default App;
