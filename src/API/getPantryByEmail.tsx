@@ -30,11 +30,15 @@ export const getPantryByEmail = async (
     email: string,
 ): Promise<GetPantryByEmailData> => {
     const data: GetPantryByEmailData = (
-        await axios.get(
-            "https://n5oy9h6i86.execute-api.us-east-1.amazonaws.com/default/getUserPantryByEmail",
+        await axios.post(
+            "https://11d6elehxd.execute-api.us-east-1.amazonaws.com/default/getUserPantryByEmail",
             {
                 data: {
                     username: email,
+                },
+                headers: {
+                    "Content-Type": "application/json",
+                    "User-Agent": "insomnia/2023.5.8",
                 },
             },
         )

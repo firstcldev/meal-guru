@@ -33,7 +33,9 @@ const Pantry = () => {
                 {isUserDataLoading || isPantryLoading ? (
                     <CircularProgress />
                 ) : pantryData ? (
-                    <Box>{/* pantry UI  */}</Box>
+                    <Box>
+                        <Typography>{JSON.stringify(pantryData)}</Typography>
+                    </Box>
                 ) : (
                     <EmptyPantryDisplay />
                 )}
