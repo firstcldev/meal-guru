@@ -20,10 +20,10 @@ export const modifyPantryByOps = async (
     requestObject: RequestObject,
 ): Promise<string> => {
     const data: string = (
-        await axios.get(
-            "https://n5oy9h6i86.execute-api.us-east-1.amazonaws.com/default/getUserPantryByEmail",
+        await axios.post(
+            "https://k93o3ikcq3.execute-api.us-east-1.amazonaws.com/default/modifyUserPantryByOperation",
             {
-                data: requestObject as RequestObject,
+                pantryItems: requestObject["pantryItems"],
             },
         )
     ).data;

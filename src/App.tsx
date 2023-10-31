@@ -91,9 +91,9 @@ const App: React.FC = () => {
                                         <Route exact path="/profile">
                                             <Profile />
                                         </Route>
-                                        <Route exact path="/*">
+                                        {/* <Route exact path="/*">
                                             <Redirect to="/pantry" />
-                                        </Route>
+                                        </Route> */}
                                     </>
                                 ) : (
                                     <>
