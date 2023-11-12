@@ -15,7 +15,7 @@ import { AddToPantryFormData, AddToPantryFormUpdateAction } from "./types";
 import PurchaseAndExpiry from "./PurchaseAndExpiry";
 import Quantity from "./Quantity";
 import { IonContent } from "@ionic/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { modifyPantryByOps } from "../../API/modifyPantryByOps";
 import { getCurrentCognitoUserData } from "../../Cognito";
 import dayjs from "dayjs";
@@ -68,6 +68,7 @@ const initialState: AddToPantryFormData = {
 };
 
 const AddToPantry = () => {
+    const queryClient = useQueryClient();
     const [formData, updateFormData] = useReducer<typeof handleFormUpdates>(
         handleFormUpdates,
         initialState,
@@ -96,7 +97,7 @@ const AddToPantry = () => {
                 );
             } else {
                 computedExpiryDate = dayjs(formData.purchaseDate)
-                    .add(Number(formData.item?.["Shelf Life"]), "days")
+                    .add(Number(formData.item?.["Shelf Life"].S), "days")
                     .format("YYYY-MM-DD");
             }
 
@@ -129,6 +130,7 @@ const AddToPantry = () => {
                 message: "Item added to pantry successfully!",
                 severity: "success",
             });
+            queryClient.refetchQueries(["pantry", userData?.email]);
         },
     });
 

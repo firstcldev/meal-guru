@@ -1,5 +1,4 @@
 import { Box, Button, Typography } from "@mui/material";
-import React from "react";
 import Empty_Pantry_Image from "./Empty_Pantry_Illustration.png";
 import { Link } from "react-router-dom";
 

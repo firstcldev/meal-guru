@@ -78,7 +78,6 @@ const App: React.FC = () => {
                                 {/* if user is logged in */}
                                 {currentUser ? (
                                     <>
-                                        {/* redirect to pantry page if user is logged in  */}
                                         <Route exact path="/pantry">
                                             <Pantry />
                                         </Route>
@@ -91,9 +90,10 @@ const App: React.FC = () => {
                                         <Route exact path="/profile">
                                             <Profile />
                                         </Route>
-                                        {/* <Route exact path="/*">
+                                        {/* redirect to pantry page for any other url  */}
+                                        <Route exact path="/*">
                                             <Redirect to="/pantry" />
-                                        </Route> */}
+                                        </Route>
                                     </>
                                 ) : (
                                     <>
@@ -109,6 +109,7 @@ const App: React.FC = () => {
                                         <Route exact path="/confirm-email">
                                             <ConfirmEmail />
                                         </Route>
+                                        {/* redirect to welcome page for any other url  */}
                                         <Route exact path="/*">
                                             <Redirect to="/" />
                                         </Route>
