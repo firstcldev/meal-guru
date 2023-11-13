@@ -27,7 +27,7 @@ const TipDrawer: React.FC<TipDrawerProps> = ({ ...props }) => {
                     paddingY: 3,
                     display: "flex",
                     flexDirection: "column",
-                    minHeight: "550px",
+                    minHeight: "90vh",
                     alignItems: "start",
                 }}
             >

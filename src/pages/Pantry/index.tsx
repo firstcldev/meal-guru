@@ -2,6 +2,7 @@ import { Screen, Window } from "../../components/ui/ViewPort";
 import {
     AppBar,
     Box,
+    Button,
     CircularProgress,
     Toolbar,
     Typography,
@@ -12,6 +13,9 @@ import EmptyPantryDisplay from "./EmptyPantryDisplay";
 import { useQuery } from "@tanstack/react-query";
 import { getCurrentCognitoUserData } from "../../Cognito";
 import { getPantryByEmail } from "../../API";
+import { Add } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import PantryDisplay from "./PantryDisplay";
 
 const Pantry = () => {
     const { data: userData, isLoading: isUserDataLoading } = useQuery(
@@ -21,6 +25,9 @@ const Pantry = () => {
     const { data: pantryData, isLoading: isPantryLoading } = useQuery(
         ["pantry", userData?.email],
         async () => await getPantryByEmail(userData?.email as string),
+        {
+            enabled: !!userData?.email,
+        },
     );
     return (
         <Screen>
@@ -31,10 +38,25 @@ const Pantry = () => {
                     </Toolbar>
                 </AppBar>
                 {isUserDataLoading || isPantryLoading ? (
-                    <CircularProgress />
-                ) : pantryData ? (
-                    <Box>
-                        <Typography>{JSON.stringify(pantryData)}</Typography>
+                    <CircularProgress sx={{ marginTop: 5 }} />
+                ) : pantryData && pantryData?.length > 0 ? (
+                    <Box
+                        paddingX={1}
+                        height={"100%"}
+                        marginTop={9}
+                        marginBottom={15}
+                    >
+                        <Link to={"/add-to-pantry"}>
+                            <Button
+                                variant="contained"
+                                size="large"
+                                startIcon={<Add />}
+                                fullWidth
+                            >
+                                Add to Pantry
+                            </Button>
+                        </Link>
+                        <PantryDisplay pantryData={pantryData} />
                     </Box>
                 ) : (
                     <EmptyPantryDisplay />
