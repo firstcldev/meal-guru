@@ -1,16 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { GetPantryByEmailData, getAllPantryDetails } from "../../API";
 import { Item } from "../AddToPantry/types";
-import {
-    Box,
-    CircularProgress,
-    Paper,
-    Tab,
-    Tabs,
-    Typography,
-} from "@mui/material";
+import { Box, CircularProgress, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import { IonContent } from "@ionic/react";
+import ItemCard from "./ItemCard";
 
 const PantryDisplay = ({
     pantryData,
@@ -92,42 +86,13 @@ const PantryDisplay = ({
                     height={"min-content"}
                     display={"grid"}
                     gridTemplateColumns={"1fr 1fr"}
-                    gap={1}
+                    gap={1.5}
                     borderRadius={2}
                 >
                     {populatedPantryData
                         .filter((e) => e.itemData?.Category.S === selectedTab)
                         .map((i, k) => (
-                            <Paper
-                                key={k}
-                                sx={{
-                                    display: "flex",
-                                    padding: 2,
-                                    flexDirection: "column",
-                                    borderRadius: 2,
-                                }}
-                            >
-                                <img
-                                    src={i.itemData?.URL.S}
-                                    width={100}
-                                    height={100}
-                                    alt={i.itemData?.Name.S}
-                                />
-                                <Typography variant="subtitle1">
-                                    {i.itemData?.Name.S}
-                                </Typography>
-                                <Typography variant="subtitle2">
-                                    {i.quantity.N}{" "}
-                                    {i.unit.S === "weight"
-                                        ? "Kg"
-                                        : i.unit.S === "volume"
-                                        ? "Ltr"
-                                        : "Pcs"}
-                                </Typography>
-                                <Typography variant="caption">
-                                    Expires on {i.expiryDate.S}
-                                </Typography>
-                            </Paper>
+                            <ItemCard item={i} key={k} />
                         ))}
                 </Box>
             </IonContent>

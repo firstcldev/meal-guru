@@ -38,7 +38,7 @@ const Pantry = () => {
                     </Toolbar>
                 </AppBar>
                 {isUserDataLoading || isPantryLoading ? (
-                    <CircularProgress />
+                    <CircularProgress sx={{ marginTop: 5 }} />
                 ) : pantryData && pantryData?.length > 0 ? (
                     <Box
                         paddingX={1}
