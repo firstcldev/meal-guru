@@ -104,12 +104,12 @@ const Register: React.FC = () => {
                     "Successfully registered! Please check your email for verification.",
                 severity: "success",
             });
-            //wait for 2.5 seconds and redirect to confirm page
+            //wait for 1 seconds and redirect to confirm page
             setTimeout(() => {
                 history.push(
                     `/confirm-email?email=${response.data?.getUsername()}`,
                 );
-            }, 2500);
+            }, 1000);
         },
     });
 
