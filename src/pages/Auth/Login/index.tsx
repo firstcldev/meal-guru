@@ -76,18 +76,17 @@ const Login: React.FC = () => {
 
     const { isLoading, mutate: sendRequestToAuthenticate } = useMutation({
         mutationKey: ["login", formData.email],
-        mutationFn: async () =>
-            await authenticateUser(formData.email, formData.password),
+        mutationFn: () => authenticateUser(formData.email, formData.password),
         onSuccess: (response) => {
             setSnackBar({
                 open: true,
                 message: "Successfully logged in!",
                 severity: "success",
             });
-            //wait for 2.5 seconds and redirect to pantry page
+            //wait for 1 second and redirect to pantry page
             setTimeout(() => {
                 window.location.reload();
-            }, 2500);
+            }, 1000);
         },
         onError: (response: any) => {
             setSnackBar({
