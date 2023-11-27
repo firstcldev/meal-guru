@@ -108,7 +108,7 @@ const AddToPantry = () => {
                         status: "Create",
                         item: formData.item?.Name.S,
                         unit: formData.unit,
-                        quantity: formData.quantity,
+                        quantity: String(formData.quantity),
                         purchaseDate: dayjs(formData.purchaseDate).format(
                             "YYYY-MM-DD",
                         ),

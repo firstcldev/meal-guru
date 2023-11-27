@@ -7,7 +7,7 @@ type RequestObject = {
             username: string;
             status: "Create" | "Update" | "Delete";
             item?: string;
-            quantity?: number;
+            quantity?: string;
             unit?: AddToPantryFormData["unit"];
             purchaseDate?: string;
             expiryDate?: string;
