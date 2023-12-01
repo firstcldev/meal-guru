@@ -1,30 +1,30 @@
 import axios from "axios";
 
-const sampleObject = {
+type SampleObject = {
     purchaseDate: {
-        S: "2023-08-01",
-    },
+        S: string;
+    };
     quantity: {
-        N: "10",
-    },
+        S: string;
+    };
     unit: {
-        S: "kilos",
-    },
+        S: "weight" | "volume" | "quantity";
+    };
     pantryItemId: {
-        S: "4a8ed5e6-5ccc-4847-b84d-93ddcbf3848b",
-    },
+        S: string;
+    };
     expiryDate: {
-        S: "2023-08-31",
-    },
+        S: string;
+    };
     username: {
-        S: "vishalviswanathan9@gmail.com",
-    },
+        S: string;
+    };
     item: {
-        S: "Chicken",
-    },
+        S: string;
+    };
 };
 
-export type GetPantryByEmailData = (typeof sampleObject)[];
+export type GetPantryByEmailData = SampleObject[];
 
 export const getPantryByEmail = async (
     email: string,

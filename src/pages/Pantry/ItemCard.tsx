@@ -44,7 +44,7 @@ const ItemCard = ({
                     {item.itemData?.Name.S}
                 </Typography>
                 <Typography variant="subtitle2" paddingX={2}>
-                    {item.quantity.N}{" "}
+                    {item.quantity.S}{" "}
                     {item.unit.S === "weight"
                         ? "Kg"
                         : item.unit.S === "volume"
