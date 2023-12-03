@@ -2,8 +2,9 @@ import { Item } from "../AddToPantry/types";
 import { GetPantryByEmailData } from "../../API";
 import { Box, Card, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import UpdateItemDrawer from "./UpdateItemDrawer";
+import UpdateItemDrawer from "./UpdatingPantry/UpdateItemDrawer";
 import { useState } from "react";
+import { formatQuantity } from "../../utils/formatQuantity";
 
 const ItemCard = ({
     item,
@@ -44,12 +45,7 @@ const ItemCard = ({
                     {item.itemData?.Name.S}
                 </Typography>
                 <Typography variant="subtitle2" paddingX={2}>
-                    {item.quantity.S}{" "}
-                    {item.unit.S === "weight"
-                        ? "Kg"
-                        : item.unit.S === "volume"
-                        ? "Ltr"
-                        : "Pcs"}
+                    {formatQuantity(item.quantity.S, item.unit.S)}
                 </Typography>
                 <Box
                     borderRadius={1}

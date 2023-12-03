@@ -130,7 +130,7 @@ const AddToPantry = () => {
                 message: "Item added to pantry successfully!",
                 severity: "success",
             });
-            queryClient.refetchQueries(["pantry", userData?.email]);
+            queryClient.refetchQueries(["pantry"]);
         },
     });
 

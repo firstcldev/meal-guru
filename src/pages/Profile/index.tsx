@@ -10,12 +10,10 @@ import { IonContent } from "@ionic/react";
 import BottomTabs from "../../components/ui/BottomTabs";
 import { useQuery } from "@tanstack/react-query";
 import { getCurrentCognitoUserData } from "../../Cognito";
+import { useCurrentUser } from "../../utils/hooks/useCurrentUser";
 
 const Profile = () => {
-    const { data: userData, isLoading } = useQuery(
-        ["profile"],
-        getCurrentCognitoUserData,
-    );
+    const { userData, isLoading } = useCurrentUser();
 
     return (
         <Screen>

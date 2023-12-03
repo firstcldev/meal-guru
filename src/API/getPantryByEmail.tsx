@@ -29,6 +29,9 @@ export type GetPantryByEmailData = SampleObject[];
 export const getPantryByEmail = async (
     email: string,
 ): Promise<GetPantryByEmailData> => {
+    if (!email) {
+        throw Error("Email is required");
+    }
     const data: GetPantryByEmailData = (
         await axios.post(
             "https://b1c8ppeyub.execute-api.us-east-1.amazonaws.com/default/getUserPantryByEmail",
