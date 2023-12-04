@@ -1,24 +1,17 @@
 import React, { useReducer, useState } from "react";
 import { Window, Screen } from "../../../components/ui/ViewPort";
-import {
-    Button,
-    Typography,
-    Box,
-    IconButton,
-    Snackbar,
-    Alert,
-} from "@mui/material";
+import { Button, Typography, Box, IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link, useHistory } from "react-router-dom";
 import { Emailfield, Passwordfield } from "../fields";
 import { useMutation } from "@tanstack/react-query";
 import { authenticateUser } from "../../../Cognito";
-import { Close } from "@mui/icons-material";
 import { isEmailValid } from "../validators";
 import SnackbarAlert, {
     SnackbarAlertState,
 } from "../../../components/ui/SnackbarAlert";
 import { useIonRouter } from "@ionic/react";
+import { setupNotification } from "../../../utils/setupNotif";
 
 interface LoginFormData {
     email: string;
@@ -59,6 +52,8 @@ const handleChange = (
 };
 
 const Login: React.FC = () => {
+    const history = useHistory();
+
     const [formData, updateFormData] = useReducer<typeof handleChange>(
         handleChange,
         {
@@ -77,16 +72,18 @@ const Login: React.FC = () => {
     const { isLoading, mutate: sendRequestToAuthenticate } = useMutation({
         mutationKey: ["login", formData.email],
         mutationFn: () => authenticateUser(formData.email, formData.password),
-        onSuccess: (response) => {
+        onSuccess: async (response) => {
             setSnackBar({
                 open: true,
-                message: "Successfully logged in!",
+                message: "Authenticated! Signing you in...",
                 severity: "success",
             });
+            await setupNotification({});
             //wait for 1 second and redirect to pantry page
             setTimeout(() => {
                 window.location.reload();
-            }, 1000);
+                history.replace("/pantry");
+            }, 2000);
         },
         onError: (response: any) => {
             setSnackBar({

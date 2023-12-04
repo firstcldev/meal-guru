@@ -53,7 +53,7 @@ const Pantry = () => {
                         paddingX={1}
                         height={"100%"}
                         marginTop={9}
-                        marginBottom={15}
+                        marginBottom={16}
                     >
                         <Link to={"/add-to-pantry"}>
                             <Button

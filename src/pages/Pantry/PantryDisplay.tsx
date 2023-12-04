@@ -4,7 +4,7 @@ import { Item } from "../AddToPantry/types";
 import { Badge, Box, CircularProgress, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import { IonContent } from "@ionic/react";
-import ItemCard from "./ItemCard";
+import ItemCard from "../../components/ItemCard";
 import dayjs from "dayjs";
 
 const PantryDisplay = ({
@@ -26,16 +26,16 @@ const PantryDisplay = ({
     if (allItems) {
         populatedPantryData.forEach((e) => {
             e.itemData = allItems.find((i) => i.Name.S === e.item.S);
+            const incrementAlertBy =
+                e.expiryDate.S == dayjs().format("YYYY-MM-DD") ? 1 : 0;
             if (e.itemData?.Category.S) {
                 groups[e.itemData.Category.S] = {
                     image: e.itemData.URL.S,
                     alertCount:
                         groups?.[e.itemData.Category.S]?.alertCount == undefined
-                            ? 0
+                            ? incrementAlertBy
                             : groups[e.itemData.Category.S].alertCount +
-                              (e.expiryDate.S == dayjs().format("YYYY-MM-DD")
-                                  ? 1
-                                  : 0),
+                              incrementAlertBy,
                 };
             }
         });
@@ -90,21 +90,41 @@ const PantryDisplay = ({
                     />
                 ))}
             </Tabs>
-            <IonContent style={{ width: "100%", height: "100%", flex: 1 }}>
-                <Box
-                    width={"100%"}
-                    height={"min-content"}
-                    display={"grid"}
-                    gridTemplateColumns={"1fr 1fr"}
-                    gap={1.5}
-                    borderRadius={2}
-                >
-                    {populatedPantryData
-                        .filter((e) => e.itemData?.Category.S === selectedTab)
-                        .map((i, k) => (
-                            <ItemCard item={i} key={k} />
-                        ))}
-                </Box>
+            <IonContent
+                style={{
+                    width: "100%",
+                    height: "100%",
+                    flex: 1,
+                }}
+            >
+                {(() => {
+                    const itemsForThisTab = populatedPantryData.filter(
+                        (e) => e.itemData?.Category.S === selectedTab,
+                    );
+                    // if (itemsForThisTab.length === 0) {
+                    //     setTab(Object.keys(groups)[0] as keyof typeof groups);
+                    // }
+                    return (
+                        <Box
+                            width={"100%"}
+                            minHeight={"100%"}
+                            display={"grid"}
+                            gridTemplateColumns={"1fr 1fr"}
+                            gap={1.5}
+                            borderRadius={2}
+                            sx={{ backgroundColor: "#f2f2f2" }}
+                        >
+                            {populatedPantryData
+                                .filter(
+                                    (e) =>
+                                        e.itemData?.Category.S === selectedTab,
+                                )
+                                .map((i, k) => (
+                                    <ItemCard item={i} key={k} />
+                                ))}
+                        </Box>
+                    );
+                })()}
             </IonContent>
         </Box>
     );

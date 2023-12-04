@@ -39,7 +39,8 @@ import Login from "./pages/Auth/Login";
 import ConfirmEmail from "./pages/Auth/ConfirmMail";
 import { useMemo } from "react";
 import { getCurrentCognitoUser } from "./Cognito";
-import Profile from "./pages/Profile";
+import Account from "./pages/Profile";
+import PantryCalendar from "./pages/TimelineView";
 
 setupIonicReact();
 
@@ -64,7 +65,7 @@ const queryClient = new QueryClient({
 const App: React.FC = () => {
     const currentUser = useMemo(() => {
         return getCurrentCognitoUser();
-    }, []);
+    }, [window.location.pathname]);
     return (
         <IonApp>
             <ThemeProvider theme={defaultTheme}>
@@ -87,8 +88,11 @@ const App: React.FC = () => {
                                         <Route exact path="/storage-guru">
                                             <StorageGuru />
                                         </Route>
-                                        <Route exact path="/profile">
-                                            <Profile />
+                                        <Route exact path="/calendar">
+                                            <PantryCalendar />
+                                        </Route>
+                                        <Route exact path="/account">
+                                            <Account />
                                         </Route>
                                         {/* redirect to pantry page for any other url  */}
                                         <Route exact path="/*">

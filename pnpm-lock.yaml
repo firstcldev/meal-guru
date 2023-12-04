@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@capacitor/android':
+    specifier: 5.2.2
+    version: 5.2.2(@capacitor/core@5.2.2)
   '@capacitor/app':
     specifier: 5.0.6
     version: 5.0.6(@capacitor/core@5.2.2)
@@ -16,6 +19,9 @@ dependencies:
     version: 5.0.6(@capacitor/core@5.2.2)
   '@capacitor/keyboard':
     specifier: 5.0.6
+    version: 5.0.6(@capacitor/core@5.2.2)
+  '@capacitor/local-notifications':
+    specifier: ^5.0.6
     version: 5.0.6(@capacitor/core@5.2.2)
   '@capacitor/status-bar':
     specifier: 5.0.6
@@ -1350,6 +1356,14 @@ packages:
       '@babel/helper-validator-identifier': 7.22.5
       to-fast-properties: 2.0.0
 
+  /@capacitor/android@5.2.2(@capacitor/core@5.2.2):
+    resolution: {integrity: sha512-2kx5C2lJ/DSwPWS7fKvextWhg4AK3SQvQnHgp8+WX6SDYgphBNlGUh45N/qBoMeVM7lqjANJFGQDCk0FjimlWQ==}
+    peerDependencies:
+      '@capacitor/core': ^5.2.0
+    dependencies:
+      '@capacitor/core': 5.2.2
+    dev: false
+
   /@capacitor/app@5.0.6(@capacitor/core@5.2.2):
     resolution: {integrity: sha512-6ZXVdnNmaYILasC/RjQw+yfTmq2ZO7Q3v5lFcDVfq3PFGnybyYQh+RstBrYri+376OmXOXxBD7E6UxBhrMzXGA==}
     peerDependencies:
@@ -1400,6 +1414,14 @@ packages:
 
   /@capacitor/keyboard@5.0.6(@capacitor/core@5.2.2):
     resolution: {integrity: sha512-9GewAa/y2Hwkdw/Be8MTdiAjrFZ7TPDKpR44M0Y/0QMnK+mBbgzcoZ/UkuumWv6e2F1IAI+VY5eYVQHDeZcRoA==}
+    peerDependencies:
+      '@capacitor/core': ^5.0.0
+    dependencies:
+      '@capacitor/core': 5.2.2
+    dev: false
+
+  /@capacitor/local-notifications@5.0.6(@capacitor/core@5.2.2):
+    resolution: {integrity: sha512-DB+ZBjv3Ri/0mtSzjMxLMHNGfg5m615ewDfQxp++mu7pYUM1RkxfSiigw73+PlZXDow1YNQJRlzTkwEKs6Pf+g==}
     peerDependencies:
       '@capacitor/core': ^5.0.0
     dependencies:

@@ -1,6 +1,6 @@
 import { Box, Divider, Drawer, IconButton, Typography } from "@mui/material";
-import { GetPantryByEmailData } from "../../../API";
-import { Item } from "../../AddToPantry/types";
+import { GetPantryByEmailData } from "../../API";
+import { Item } from "../../pages/AddToPantry/types";
 import { Close } from "@mui/icons-material";
 import { QuantityUpdatingBox } from "./QuantityUpdate";
 import { ExpiryUpdatingBox } from "./ExpiryUpdate";

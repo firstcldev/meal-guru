@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { GetPantryByEmailData } from "../../../API";
-import { Item } from "../../AddToPantry/types";
+import { GetPantryByEmailData } from "../../API";
+import { Item } from "../../pages/AddToPantry/types";
 import {
     Accordion,
     AccordionActions,
@@ -10,14 +10,12 @@ import {
     Button,
     Typography,
 } from "@mui/material";
-import SnackbarAlert, {
-    SnackbarAlertState,
-} from "../../../components/ui/SnackbarAlert";
+import SnackbarAlert, { SnackbarAlertState } from "../ui/SnackbarAlert";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { modifyPantryByOps } from "../../../API/modifyPantryByOps";
+import { modifyPantryByOps } from "../../API/modifyPantryByOps";
 import { ExpandMore } from "@mui/icons-material";
-import { QuantityInput } from "../../../components/ui/QuantityInput";
-import { formatQuantity } from "../../../utils/formatQuantity";
+import { QuantityInput } from "../ui/QuantityInput";
+import { formatQuantity } from "../../utils/formatQuantity";
 
 export const QuantityUpdatingBox = ({
     item,
@@ -40,7 +38,10 @@ export const QuantityUpdatingBox = ({
                 modifyPantryByOps({
                     pantryItems: [
                         {
-                            status: "Update",
+                            status:
+                                Number(item.quantity.S) - consumedQuantity == 0
+                                    ? "Delete"
+                                    : "Update",
                             username: item.username.S,
                             pantryItemId: item.pantryItemId.S,
                             quantity: (

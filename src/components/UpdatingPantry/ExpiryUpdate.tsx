@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { GetPantryByEmailData } from "../../../API";
-import { Item } from "../../AddToPantry/types";
+import { GetPantryByEmailData } from "../../API";
+import { Item } from "../../pages/AddToPantry/types";
 import {
     Accordion,
     AccordionActions,
@@ -11,14 +11,12 @@ import {
     Button,
     Typography,
 } from "@mui/material";
-import SnackbarAlert, {
-    SnackbarAlertState,
-} from "../../../components/ui/SnackbarAlert";
+import SnackbarAlert, { SnackbarAlertState } from "../ui/SnackbarAlert";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { modifyPantryByOps } from "../../../API/modifyPantryByOps";
+import { modifyPantryByOps } from "../../API/modifyPantryByOps";
 import { ExpandMore } from "@mui/icons-material";
 import dayjs, { Dayjs } from "dayjs";
-import PurchaseAndExpiryInput from "../../../components/ui/PurchaseAndExpiryInput";
+import PurchaseAndExpiryInput from "../ui/PurchaseAndExpiryInput";
 
 export const ExpiryUpdatingBox = ({
     item,
