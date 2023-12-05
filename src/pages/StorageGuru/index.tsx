@@ -41,6 +41,7 @@ const StorageGuru = () => {
                 <IonContent>
                     <Box
                         width={"100%"}
+                        minHeight={"100%"}
                         display={"flex"}
                         flexDirection={"column"}
                         gap={3}
@@ -115,11 +116,13 @@ const StorageGuru = () => {
                         )}
                     </Box>
                 </IonContent>
+                {/* {tipDrawerOpen && ( */}
                 <TipDrawer
                     item={selectedItem}
                     open={tipDrawerOpen}
                     onClose={() => setTipDrawerOpen(false)}
                 />
+                {/* )} */}
                 <BottomTabs tab="storage-guru" color="secondary" />
             </Window>
         </Screen>

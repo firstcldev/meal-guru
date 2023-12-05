@@ -1,7 +1,8 @@
-import { Checkbox, FormControlLabel, Paper, Typography } from "@mui/material";
+import { Paper } from "@mui/material";
 import { AddToPantryFormData, UpdateFormData } from "./types";
 import { useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import PurchaseAndExpiryInput from "../../components/ui/PurchaseAndExpiryInput";
+import dayjs from "dayjs";
 
 type PurchaseAndExpiryProps = {
     formData: AddToPantryFormData;
@@ -11,8 +12,8 @@ type PurchaseAndExpiryProps = {
 const PurchaseAndExpiry: React.FC<PurchaseAndExpiryProps> = ({ ...props }) => {
     const [dateMode, setDateMode] = useState<"PURCHASE" | "EXPIRY">("PURCHASE");
 
-    function changeDateMode(e: React.ChangeEvent<HTMLInputElement>): void {
-        if (e.target.checked) {
+    function changeDateMode(newMode: "PURCHASE" | "EXPIRY"): void {
+        if (newMode == "EXPIRY") {
             props?.updateFormData({
                 type: "UPDATE_PURCHASEDATE",
                 payload: { ...props?.formData, purchaseDate: null },
@@ -23,7 +24,7 @@ const PurchaseAndExpiry: React.FC<PurchaseAndExpiryProps> = ({ ...props }) => {
                 payload: { ...props?.formData, expiryDate: null },
             });
         }
-        setDateMode(e.target.checked ? "EXPIRY" : "PURCHASE");
+        setDateMode(newMode);
     }
 
     return (
@@ -31,10 +32,8 @@ const PurchaseAndExpiry: React.FC<PurchaseAndExpiryProps> = ({ ...props }) => {
             elevation={4}
             sx={{
                 width: "100%",
-                padding: 3,
                 display: "flex",
                 flexDirection: "column",
-                gap: 2,
                 borderRadius: 2,
                 // to disable this widget if item is not selected yet
                 // ...(!props.formData.item
@@ -42,55 +41,29 @@ const PurchaseAndExpiry: React.FC<PurchaseAndExpiryProps> = ({ ...props }) => {
                 //     : {}),
             }}
         >
-            <FormControlLabel
-                sx={{
-                    marginX: -3,
-                    marginTop: -3,
-                    padding: 2,
-                    borderRadius: 2,
-                    borderEndEndRadius: 0,
-                    borderEndStartRadius: 0,
-                    backgroundColor: "#F5FBF0",
-                }}
-                control={
-                    <Checkbox
-                        color="secondary"
-                        checked={dateMode == "EXPIRY"}
-                        onChange={(e) => changeDateMode(e)}
-                    />
+            <PurchaseAndExpiryInput
+                date={
+                    dateMode === "EXPIRY"
+                        ? dayjs(props.formData.expiryDate)
+                        : dayjs(props.formData.purchaseDate)
                 }
-                label="I know the expiry date"
+                onDateChange={(e) =>
+                    props?.updateFormData({
+                        type:
+                            dateMode === "EXPIRY"
+                                ? "UPDATE_EXPIRYDATE"
+                                : "UPDATE_PURCHASEDATE",
+                        payload: {
+                            ...props.formData,
+                            ...(dateMode === "EXPIRY"
+                                ? { expiryDate: e?.toDate() || null }
+                                : { purchaseDate: e?.toDate() || null }),
+                        },
+                    })
+                }
+                dateMode={dateMode}
+                onDateModeChange={(e) => changeDateMode(e)}
             />
-            <Typography variant="h6">
-                {dateMode == "PURCHASE"
-                    ? "When did you purchase it?"
-                    : "When does it expire?"}
-            </Typography>
-            {dateMode == "PURCHASE" ? (
-                <DatePicker
-                    value={props?.formData?.purchaseDate}
-                    onChange={(e) =>
-                        props?.updateFormData({
-                            type: "UPDATE_PURCHASEDATE",
-                            payload: { ...props.formData, purchaseDate: e },
-                        })
-                    }
-                    disableFuture
-                />
-            ) : (
-                <DatePicker
-                    value={props.formData.expiryDate}
-                    views={["year", "month"]}
-                    openTo="year"
-                    onChange={(e) =>
-                        props?.updateFormData({
-                            type: "UPDATE_EXPIRYDATE",
-                            payload: { ...props.formData, expiryDate: e },
-                        })
-                    }
-                    disablePast
-                />
-            )}
         </Paper>
     );
 };

@@ -8,9 +8,10 @@ import { Dns as PantryIcon } from "@mui/icons-material";
 import { Kitchen as StorageGuruIcon } from "@mui/icons-material";
 import { AccountCircle as ProfileIcon } from "@mui/icons-material";
 import { useHistory } from "react-router";
+import { CalendarIcon } from "@mui/x-date-pickers";
 
 type BottomTabProps = {
-    tab: "pantry" | "storage-guru" | "profile";
+    tab: "pantry" | "storage-guru" | "account" | "calendar";
 };
 
 const BottomTabs: React.FC<BottomNavigationProps & BottomTabProps> = ({
@@ -22,7 +23,7 @@ const BottomTabs: React.FC<BottomNavigationProps & BottomTabProps> = ({
             sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
             showLabels
             value={props?.tab}
-            onChange={(_, newValue) => {
+            onChange={(_, newValue: BottomTabProps["tab"]) => {
                 history.push("/" + newValue);
             }}
         >
@@ -32,13 +33,18 @@ const BottomTabs: React.FC<BottomNavigationProps & BottomTabProps> = ({
                 icon={<PantryIcon />}
             />
             <BottomNavigationAction
+                label="Calendar"
+                value={"calendar"}
+                icon={<CalendarIcon />}
+            />
+            <BottomNavigationAction
                 label="Storage Guru"
                 value={"storage-guru"}
                 icon={<StorageGuruIcon />}
             />
             <BottomNavigationAction
-                label="Profile"
-                value={"profile"}
+                label="Account"
+                value={"account"}
                 icon={<ProfileIcon />}
             />
         </BottomNavigation>

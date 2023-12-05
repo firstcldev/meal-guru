@@ -1,7 +1,9 @@
-import { Box, Drawer, IconButton, Typography } from "@mui/material";
+import { Box, Divider, Drawer, IconButton, Typography } from "@mui/material";
 import { GetPantryByEmailData } from "../../API";
-import { Item } from "../AddToPantry/types";
+import { Item } from "../../pages/AddToPantry/types";
 import { Close } from "@mui/icons-material";
+import { QuantityUpdatingBox } from "./QuantityUpdate";
+import { ExpiryUpdatingBox } from "./ExpiryUpdate";
 
 const UpdateItemDrawer = ({
     item,
@@ -26,14 +28,18 @@ const UpdateItemDrawer = ({
                     display: "flex",
                     flexDirection: "column",
                     minHeight: "80vh",
+                    backgroundColor: "#F6F7F5",
                 }}
             >
                 <IconButton sx={{ alignSelf: "end" }} onClick={onClose}>
                     <Close />
                 </IconButton>
-                <Typography variant="h5" fontWeight={600}>
+                <Typography variant="h5" fontWeight={600} marginBottom={3}>
                     {item.itemData?.Name.S}
                 </Typography>
+                <QuantityUpdatingBox item={item} />
+                <Divider sx={{ my: 2 }} />
+                <ExpiryUpdatingBox item={item} />
             </Box>
         </Drawer>
     );
